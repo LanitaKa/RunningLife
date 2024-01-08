@@ -1,10 +1,12 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Person {
     String gender;
     int budget;
     int iq;
     int lifeExpectancy;
+    String profession;
 
 
     Person(){
@@ -13,6 +15,7 @@ public class Person {
         this.budget = getBudget();
         this.iq = getIq();
         this.lifeExpectancy = getLifeExpectancy();
+        this.profession = "";
     }
 
     private String getGender(){
@@ -44,6 +47,8 @@ public class Person {
 
     public void runLife(){
         int age = 0;
+        System.out.println("Food and clothing are the major expenses for a child under the age of 6");
+        pause();
 
         while (budget > 0 || age < lifeExpectancy * 12){
             age++;
@@ -55,6 +60,35 @@ public class Person {
                 System.out.println("Happy birthday! You are  " + year +  " years old");
             } else {
                 System.out.println("You are " + year +  " years and " + month +" months old");
+            }
+
+            if (age == 6*12){
+                System.out.println();
+                System.out.println("Food, clothing, and education are the major expenses of a school child");
+                pause();
+            }
+
+            if (age == 18*12){
+                System.out.println();
+                System.out.println("Food, clothing, education, and house rent are the major expenses of a student. But a student works to earn a little money");
+                System.out.println();
+                professionChoice();
+                pause();
+            }
+
+
+            if (age == 25*12){
+                System.out.println();
+                System.out.println("Food, clothing, vacations and renting a house are the basic expenses of every adult. Every person earns some money to support his or her life");
+                System.out.println();
+                profession();
+                pause();
+            }
+
+            if (age == 60*12){
+                System.out.println();
+                System.out.println("A person has gone on a well-deserved vacation. He receives a pension.  Food, clothing, recreation and renting a house are the main expenses");
+                pause();
             }
 
             if (age <= (6*12)){
@@ -77,17 +111,13 @@ public class Person {
                 pensioner();
             }
 
-
-
-
-
-
-
             if (budget <= 0) {
+                System.out.println();
                 System.out.println("You are bankrupt. Life is over");
                 break;
             }
             if (age > lifeExpectancy * 12) {
+                System.out.println();
                 System.out.println("The limit of life expectancy has been reached. You've lived " + year + " years. Life is over");
                 break;
             }
@@ -178,6 +208,37 @@ public class Person {
         System.out.println("Food expense: " + foodExpense +  " Clothing expenses: " + clothingExpense + " Home expenses: " + homeExpense + " Rest expense: " + restExpense);
         System.out.println("Expense: " + expense + " Pension: " + pension +  " Budget: " + budget);
     }
+
+    public void pause(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println ();
+        System.out.println ("Press ENTER to continue");
+        scanner.nextLine();
+    }
+
+    public void professionChoice(){
+        String[] lowPofession = {"worker", "waiter", "salesman", "driver"};
+        String[] middlePofession = {"engineer", "accountant", "lawyer", "teacher"};
+        String[] highPofession = {"programmer", "scientist", "doctor", "judge"};
+        Random random = new Random();
+
+        if (iq <= 90) {
+            int randomIndex = random.nextInt(lowPofession.length);
+            this.profession = lowPofession[randomIndex];
+        } else if ((iq > 90 && iq <=110)) {
+            int randomIndex = random.nextInt(middlePofession.length);
+            this.profession = middlePofession[randomIndex];
+        } else {
+            int randomIndex = random.nextInt(highPofession.length);
+            this.profession = highPofession[randomIndex];
+        }
+        System.out.println ("You have been competitively selected for further training in your specialty: " + this.profession);
+    }
+
+    public void profession(){
+        System.out.println ("Congratulations! You've graduated with a degree in specialization. Your specialty: " + this.profession);
+    }
+
 
 
 }

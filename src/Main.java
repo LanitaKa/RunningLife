@@ -9,6 +9,8 @@ public class Main {
         System.out.println("IQ: " + person.iq);
         System.out.println("Life Expectancy: " + person.lifeExpectancy);
 
+        person.pause();
+
         person.runLife();
     }
 }
