@@ -7,6 +7,7 @@ public class Person {
     int iq;
     int lifeExpectancy;
     String profession;
+    boolean isMarried;
 
 
     Person(){
@@ -16,15 +17,16 @@ public class Person {
         this.iq = getIq();
         this.lifeExpectancy = getLifeExpectancy();
         this.profession = "";
+        this.isMarried = false;
     }
 
     private String getGender(){
         Random random = new Random();
         int randomNumber = random.nextInt(2);
         if (randomNumber == 0 ) {
-            gender = "Man";
-        } else gender = "Woman";
-        return gender;
+            this.gender = "Man";
+        } else this.gender = "Woman";
+        return this.gender;
     }
 
     private int getBudget(){
@@ -37,12 +39,12 @@ public class Person {
 
     private int getLifeExpectancy(){
         Random random = new Random();
-        if (gender.equals("Man")) {
-            lifeExpectancy = random.nextInt(26) + 65;
+        if (this.gender.equals("Man")) {
+            this.lifeExpectancy = random.nextInt(26) + 65;
         } else {
-            lifeExpectancy = random.nextInt(26) + 70;
+            this.lifeExpectancy = random.nextInt(26) + 70;
         }
-        return lifeExpectancy;
+        return this.lifeExpectancy;
     }
 
     public void runLife(){
@@ -50,10 +52,10 @@ public class Person {
         System.out.println("Food and clothing are the major expenses for a child under the age of 6");
         pause();
 
-        while (budget > 0 || age < lifeExpectancy * 12){
+        while (this.budget > 0 || age < this.lifeExpectancy * 12){
             age++;
 
-            budget -= new Random().nextInt(10)+50;
+            this.budget -= new Random().nextInt(10)+50;
             int year = age / 12;
             int month = age % 12;
             if (month == 0) {
@@ -81,7 +83,7 @@ public class Person {
                 System.out.println();
                 System.out.println("Food, clothing, vacations and renting a house are the basic expenses of every adult. Every person earns some money to support his or her life");
                 System.out.println();
-                profession();
+                setProfession();
                 pause();
             }
 
@@ -103,6 +105,10 @@ public class Person {
                 student();
             }
 
+            if (age >= (25*12) && !this.isMarried && age % 12 == 0 && age < (60*12)){
+                this.isMarried = tryToGetMarried();
+            }
+
             if (age > (25*12) &&  age <= (60*12) ){
                 adult();
             }
@@ -111,12 +117,16 @@ public class Person {
                 pensioner();
             }
 
-            if (budget <= 0) {
+            if (age % 13 == 0 && age > (18*12)){
+                surprises();
+            }
+
+            if (this.budget <= 0) {
                 System.out.println();
                 System.out.println("You are bankrupt. Life is over");
                 break;
             }
-            if (age > lifeExpectancy * 12) {
+            if (age > this.lifeExpectancy * 12) {
                 System.out.println();
                 System.out.println("The limit of life expectancy has been reached. You've lived " + year + " years. Life is over");
                 break;
@@ -129,9 +139,9 @@ public class Person {
         int clothingExpense = new Random().nextInt(25)+20;
         int expense = foodExpense + clothingExpense;
 
-        budget = budget - expense;
+        this.budget -= expense;
         System.out.println("Food expense: " + foodExpense +  " Clothing expenses: " + clothingExpense);
-        System.out.println("Expense: " + expense +  " Budget: " + budget);
+        System.out.println("Expense: " + expense +  " Budget: " + this.budget);
     }
 
     public void schooler(){
@@ -140,18 +150,18 @@ public class Person {
         int educationExpense = new Random().nextInt(80)+160;
         int expense = foodExpense + clothingExpense + educationExpense;
 
-        budget = budget - expense;
+        this.budget -= expense;
         System.out.println("Food expense: " + foodExpense +  " Clothing expenses: " + clothingExpense + " Education expenses: " + educationExpense);
-        System.out.println("Expense: " + expense +  " Budget: " + budget);
+        System.out.println("Expense: " + expense +  " Budget: " + this.budget);
     }
 
     public void student(){
         int foodExpense = new Random().nextInt(80)+260;
         int clothingExpense = new Random().nextInt(50)+50;
         int educationExpense;
-        if (iq <= 90) {
+        if (this.iq <= 90) {
             educationExpense = new Random().nextInt(40)+130;
-        } else if ((iq > 90 && iq <=110)) {
+        } else if ((this.iq > 90 && this.iq <=110)) {
             educationExpense = new Random().nextInt(100)+250;
         } else {
             educationExpense = new Random().nextInt(100)+450;
@@ -162,9 +172,9 @@ public class Person {
 
         int salary = new Random().nextInt(400)+800;
 
-        budget = budget - expense + salary;
+        this.budget = this.budget - expense + salary;
         System.out.println("Food expense: " + foodExpense +  " Clothing expenses: " + clothingExpense + " Education expenses: " + educationExpense + " Home expenses: " + homeExpense);
-        System.out.println("Expense: " + expense + " Salary: " + salary +  " Budget: " + budget);
+        System.out.println("Expense: " + expense + " Salary: " + salary +  " Budget: " + this.budget);
     }
 
     public void adult(){
@@ -173,9 +183,9 @@ public class Person {
         int homeExpense = new Random().nextInt(100)+250;
         int restExpense = new Random().nextInt(200)+200;
         int salary;
-        if (iq <= 90) {
+        if (this.iq <= 90) {
             salary = new Random().nextInt(400)+1400;
-        } else if ((iq > 90 && iq <=110)) {
+        } else if ((this.iq > 90 && this.iq <=110)) {
             salary = new Random().nextInt(600)+1800;
         } else {
             salary = new Random().nextInt(1000)+2600;
@@ -183,9 +193,9 @@ public class Person {
 
         int expense = foodExpense + clothingExpense + restExpense + homeExpense;
 
-        budget = budget - expense + salary;
+        this.budget = this.budget - expense + salary;
         System.out.println("Food expense: " + foodExpense +  " Clothing expenses: " + clothingExpense + " Home expenses: " + homeExpense + " Rest expense: " + restExpense);
-        System.out.println("Expense: " + expense + " Salary: " + salary +  " Budget: " + budget);
+        System.out.println("Expense: " + expense + " Salary: " + salary +  " Budget: " + this.budget);
     }
 
     public void pensioner(){
@@ -194,9 +204,9 @@ public class Person {
         int homeExpense = new Random().nextInt(100)+250;
         int restExpense = new Random().nextInt(200)+100;
         int pension;
-        if (iq <= 90) {
+        if (this.iq <= 90) {
             pension = new Random().nextInt(400)+600;
-        } else if ((iq > 90 && iq <=110)) {
+        } else if ((this.iq > 90 && this.iq <=110)) {
             pension = new Random().nextInt(600)+1000;
         } else {
             pension = new Random().nextInt(1000)+1500;
@@ -204,9 +214,9 @@ public class Person {
 
         int expense = foodExpense + clothingExpense + restExpense + homeExpense;
 
-        budget = budget - expense + pension;
+        this.budget = this.budget - expense + pension;
         System.out.println("Food expense: " + foodExpense +  " Clothing expenses: " + clothingExpense + " Home expenses: " + homeExpense + " Rest expense: " + restExpense);
-        System.out.println("Expense: " + expense + " Pension: " + pension +  " Budget: " + budget);
+        System.out.println("Expense: " + expense + " Pension: " + pension +  " Budget: " + this.budget);
     }
 
     public void pause(){
@@ -222,10 +232,10 @@ public class Person {
         String[] highPofession = {"programmer", "scientist", "doctor", "judge"};
         Random random = new Random();
 
-        if (iq <= 90) {
+        if (this.iq <= 90) {
             int randomIndex = random.nextInt(lowPofession.length);
             this.profession = lowPofession[randomIndex];
-        } else if ((iq > 90 && iq <=110)) {
+        } else if ((this.iq > 90 && this.iq <=110)) {
             int randomIndex = random.nextInt(middlePofession.length);
             this.profession = middlePofession[randomIndex];
         } else {
@@ -235,9 +245,83 @@ public class Person {
         System.out.println ("You have been competitively selected for further training in your specialty: " + this.profession);
     }
 
-    public void profession(){
+    public void setProfession(){
         System.out.println ("Congratulations! You've graduated with a degree in specialization. Your specialty: " + this.profession);
     }
+
+   public boolean tryToGetMarried(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println ();
+        System.out.println ("Do you want to marry/get married? (yes/no)");
+        String answer = scanner.next().toLowerCase();
+
+        if (answer.equals("yes")){
+            int weddingExpense = new Random().nextInt(500)+1000;
+            int changeLifeExpectancy = new Random().nextInt(5)+2;
+            System.out.println("Congratulations! You got married/remarried!");
+            System.out.println("Your wedding expenses totaled: " + weddingExpense);
+            this.budget -= weddingExpense;
+            System.out.println("Budget: " + this.budget);
+            this.lifeExpectancy += changeLifeExpectancy;
+            return true;
+        }
+        else {
+            System.out.println("You refused to marry/get married. Maybe next time?");
+            System.out.println();
+            return false;
+        }
+    }
+
+   public void surprises(){
+       int surpriseNumber = new Random().nextInt(2000);
+       int plusYears = new Random().nextInt(10);
+       System.out.println(surpriseNumber);
+       if (surpriseNumber % 100 == 0) {
+           System.out.println("You died in an automobile accident");
+           this.lifeExpectancy = 0;
+       }
+       if (surpriseNumber % 51 == 0) {
+           System.out.println("You've become an addict. It decreases the length of your life.");
+           pause();
+           this.lifeExpectancy -= 30;
+       }
+       if (surpriseNumber % 33 == 0) {
+           System.out.println("You abuse alcohol. It shortens your lifespan.");
+           pause();
+           this.lifeExpectancy -= 20;
+       }
+
+       if (surpriseNumber % 47 == 0) {
+           System.out.println("You smoke. It shortens your lifespan.");
+           pause();
+           this.lifeExpectancy -= 10;
+       }
+
+       if (surpriseNumber % 52 == 0) {
+           System.out.println("Doing yoga. You'll live longer.");
+           this.lifeExpectancy = this.lifeExpectancy + plusYears;
+       }
+       if (surpriseNumber % 17 == 0) {
+           System.out.println("You eat right. You'll live longer.");
+           pause();
+           this.lifeExpectancy = this.lifeExpectancy + plusYears;
+       }
+       if (surpriseNumber % 24 == 0) {
+           System.out.println("You exercise. You'll live longer.");
+           pause();
+           this.lifeExpectancy = this.lifeExpectancy + plusYears;
+       }
+
+       if (surpriseNumber % 29 == 0) {
+           System.out.println("You get hardened. You'll live longer.");
+           pause();
+           this.lifeExpectancy = this.lifeExpectancy + plusYears;
+       }
+   }
+
+
+
+
 
 
 
