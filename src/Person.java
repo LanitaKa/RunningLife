@@ -318,11 +318,4 @@ public class Person {
            this.lifeExpectancy = this.lifeExpectancy + plusYears;
        }
    }
-
-
-
-
-
-
-
 }
